@@ -1,0 +1,969 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    color: white;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* 模块索引样式 */
+.module-index {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.module-index h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    font-size: 1.8rem;
+}
+
+.module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.module-card {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.module-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    border-color: #667eea;
+}
+
+.module-card i {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: #667eea;
+}
+
+.module-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.module-card p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* 模块内容样式 */
+.module-content {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.module-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 20px;
+}
+
+.back-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+}
+
+.back-btn:hover {
+    background: #5a6fd8;
+}
+
+.module-header h2 {
+    color: #333;
+    font-size: 1.8rem;
+}
+
+/* 线路模块样式 */
+.wires-input h3 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.4rem;
+}
+
+.input-methods {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 25px;
+}
+
+.manual-input label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #555;
+}
+
+.manual-input input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.manual-input input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.color-buttons p {
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: #555;
+}
+
+.color-btn-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.color-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    min-width: 60px;
+}
+
+.color-btn.red { background: #ff4757; color: white; }
+.color-btn.white { background: #f1f2f6; color: #333; }
+.color-btn.blue { background: #3742fa; color: white; }
+.color-btn.yellow { background: #ffa502; color: white; }
+.color-btn.black { background: #2f3542; color: white; }
+
+.color-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.clear-btn {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.current-wires {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.current-wires h4 {
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.solve-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.solve-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+
+/* 序列号选择样式 */
+.serial-number-section {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 12px;
+    margin: 25px 0;
+}
+
+.serial-number-section h3 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.serial-options {
+    display: flex;
+    gap: 15px;
+}
+
+.serial-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.serial-btn:hover {
+    background: #5a6fd8;
+    transform: translateY(-2px);
+}
+
+/* 按钮模块样式 */
+.button-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+.option-group {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.option-group label {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.button-color-btns, .button-text-btns, .indicator-btns, .battery-btns {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.btn-color-btn, .btn-text-btn, .indicator-btn, .battery-btn {
+    padding: 8px 16px;
+    border: 2px solid #ddd;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-color-btn:hover, .btn-text-btn:hover, .indicator-btn:hover, .battery-btn:hover {
+    border-color: #667eea;
+    background: #f0f4ff;
+}
+
+.btn-color-btn.selected, .btn-text-btn.selected, .indicator-btn.selected, .battery-btn.selected {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.current-button-info {
+    background: #e8f4fd;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    border-left: 4px solid #667eea;
+}
+
+.current-button-info h4 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.current-button-info p {
+    margin-bottom: 5px;
+    color: #555;
+}
+
+/* 结果样式 */
+.result-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-top: 25px;
+}
+
+.result-section h3 {
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+}
+
+.solution {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.solution .step {
+    background: rgba(255,255,255,0.1);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.solution .step:last-child {
+    margin-bottom: 0;
+}
+
+/* 占位模块样式 */
+.coming-soon {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+.coming-soon i {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    color: #ddd;
+}
+
+.coming-soon h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .input-methods {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .button-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .module-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    
+    .color-btn-group {
+        justify-content: center;
+    }
+    
+    .serial-options {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .module-card {
+        padding: 20px;
+    }
+    
+    .module-content {
+        padding: 20px;
+    }
+    
+    .color-btn {
+        min-width: 50px;
+        padding: 8px 12px;
+    }
+}
+
+/* 记忆模块样式 */
+.memory-input h3 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.4rem;
+}
+
+.memory-description {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 25px;
+    color: #856404;
+    font-style: italic;
+}
+
+.memory-stage-info {
+    background: #e8f4fd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    border-left: 4px solid #667eea;
+}
+
+.memory-stage-info h4 {
+    color: #333;
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+}
+
+.memory-stage-info p {
+    color: #666;
+    margin: 0;
+}
+
+.button-order-input {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border-left: 4px solid #ffc107;
+}
+
+.button-order-input h4 {
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.button-order-input p {
+    margin-bottom: 15px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.order-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    justify-content: center;
+}
+
+.order-input {
+    width: 60px;
+    height: 50px;
+    text-align: center;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: border-color 0.3s ease;
+}
+
+.order-input:focus {
+    outline: none;
+    border-color: #ffc107;
+}
+
+.memory-display-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.memory-display-section h4 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.display-number-btns {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.display-btn {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #ddd;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.display-btn:hover {
+    border-color: #667eea;
+    background: #f0f4ff;
+    transform: scale(1.05);
+}
+
+.display-btn.selected {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.memory-history {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+.memory-history h4 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.history-display {
+    min-height: 100px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    font-family: monospace;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.history-item {
+    margin-bottom: 8px;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.history-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.history-item.error {
+    color: #dc3545;
+    background: #f8d7da;
+    padding: 8px;
+    border-radius: 4px;
+    border-left: 3px solid #dc3545;
+}
+
+.history-item.success {
+    color: #155724;
+    background: #d4edda;
+    padding: 8px;
+    border-radius: 4px;
+    border-left: 3px solid #28a745;
+}
+
+.memory-controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.reset-btn {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    flex: 1;
+}
+
+.reset-btn:hover {
+    background: #ff5252;
+    transform: translateY(-2px);
+}
+
+.memory-controls .solve-btn {
+    flex: 2;
+}
+
+.next-stage-btn {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+}
+
+.next-stage-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(40, 167, 69, 0.4);
+}
+
+/* 记忆模块响应式设计 */
+@media (max-width: 768px) {
+    .display-number-btns {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .display-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    
+    .memory-controls {
+        flex-direction: column;
+    }
+    
+    .memory-controls .solve-btn {
+        flex: none;
+    }
+}
+
+.simon-vowel-btn {
+    background: linear-gradient(135deg, #00b4d8 0%, #48cae4 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 10px;
+    transition: all 0.3s ease;
+}
+.simon-vowel-btn:hover {
+    background: #0096c7;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,180,216,0.2);
+}
+
+.simon-vowel-btn.selected {
+    background: linear-gradient(135deg, #0077b6 0%, #00b4d8 100%);
+    color: #fff;
+    border: 2px solid #0077b6;
+    box-shadow: 0 0 0 3px #caf0f8;
+}
+
+.morse-input-section h3 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.2rem;
+}
+
+#morse-input {
+    margin-bottom: 10px;
+    border: 2px solid #48cae4;
+}
+
+.morse-result-list {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px 20px;
+    min-height: 40px;
+    font-size: 1.1rem;
+    color: #333;
+    box-shadow: 0 2px 8px #0001;
+}
+
+.morse-word-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.morse-word-item:last-child {
+    border-bottom: none;
+}
+.morse-word-item .word {
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+.morse-word-item .freq {
+    color: #0077b6;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.password-letter-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+.pw-letter {
+    width: 90px;
+    height: 50px;
+    text-align: center;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: border-color 0.3s ease;
+}
+.pw-letter:focus {
+    outline: none;
+    border-color: #0077b6;
+}
+.pw-result-list {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px 20px;
+    min-height: 40px;
+    font-size: 1.1rem;
+    color: #333;
+    box-shadow: 0 2px 8px #0001;
+}
+.pw-word-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+.pw-word-item:last-child {
+    border-bottom: none;
+}
+
+.wire-seq-panel {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 25px 20px 20px 20px;
+    box-shadow: 0 2px 8px #0001;
+}
+.wire-seq-input-group input {
+    font-size: 1.1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 10px 12px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.wire-seq-panel-btns .wire-seq-btn {
+    background: linear-gradient(135deg, #667eea 0%, #48cae4 100%);
+    color: white;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.wire-seq-panel-btns .wire-seq-btn.reset {
+    background: #ff6b6b;
+}
+.wire-seq-panel-btns .wire-seq-btn:hover {
+    background: #5a6fd8;
+}
+.wire-seq-panel-btns .wire-seq-btn.reset:hover {
+    background: #ff5252;
+}
+.wire-seq-result-list {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px 20px;
+    min-height: 40px;
+    font-size: 1.1rem;
+    color: #333;
+    box-shadow: 0 2px 8px #0001;
+}
+.wire-seq-wire-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.wire-seq-wire-item:last-child {
+    border-bottom: none;
+}
+.wire-seq-wire-item .desc {
+    font-weight: bold;
+    min-width: 80px;
+}
+.wire-seq-wire-item .cut {
+    color: #28a745;
+    font-weight: bold;
+    margin-left: 10px;
+}
+.wire-seq-wire-item .nocut {
+    color: #dc3545;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.wire-seq-quick-input label {
+    display: inline-block;
+    margin: 0 0 0 0;
+    padding: 0;
+    font-weight: normal;
+}
+.wire-seq-radio-group {
+    display: flex;
+    border: 1.5px solid #d0d7de;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+}
+.wire-seq-radio-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 0;
+    min-width: 56px;
+    text-align: center;
+    padding: 0;
+    height: 32px;
+    line-height: 32px;
+    cursor: pointer;
+    color: #555;
+    background: #fff;
+    border-right: 1px solid #d0d7de;
+    font-size: 1.15rem;
+    user-select: none;
+    transition: background 0.2s, color 0.2s;
+    border-radius: 0;
+}
+.wire-seq-radio-label:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+.wire-seq-radio-label:last-child {
+    border-right: none;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.wire-seq-radio-label.selected {
+    background: #409eff;
+    color: #fff;
+    font-weight: bold;
+    z-index: 1;
+}
+.wire-seq-radio-label:not(.selected):hover {
+    background: #e6f0fa;
+    color: #409eff;
+} 
+.wire-seq-btn.wire-seq-add-btn {
+    background: #409eff;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 6px;
+    border: none;
+    padding: 0 18px;
+    font-size: 1rem;
+    height: 32px;
+    box-shadow: 0 2px 8px #409eff22;
+    transition: background 0.2s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wire-seq-radio-group input[type="radio"] {
+    display: none;
+}
+
+.complex-radio-group {
+    display: flex;
+    border: 1.5px solid #d0d7de;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    min-width: 120px;
+}
+.complex-radio-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 0;
+    min-width: 48px;
+    text-align: center;
+    padding: 0;
+    height: 32px;
+    line-height: 32px;
+    cursor: pointer;
+    color: #555;
+    background: #fff;
+    border-right: 1px solid #d0d7de;
+    font-size: 1rem;
+    user-select: none;
+    transition: background 0.2s, color 0.2s;
+    border-radius: 0;
+    position: relative;
+}
+.complex-radio-label:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+.complex-radio-label:last-child {
+    border-right: none;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.complex-radio-label.selected {
+    background: #409eff;
+    color: #fff;
+    font-weight: bold;
+    z-index: 1;
+}
+.complex-radio-label:not(.selected):hover {
+    background: #e6f0fa;
+    color: #409eff;
+}
+.complex-radio-label input[type="checkbox"],
+.complex-radio-label input[type="radio"] {
+    display: none;
+}

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>炸弹拆除手册 - 快速查询工具</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-bomb"></i> 炸弹拆除手册</h1>
+            <p>快速查询拆弹步骤的工具</p>
+        </header>
+
+        <main>
+            <!-- 模块索引 -->
+            <section id="module-index" class="module-index">
+                <h2><i class="fas fa-list"></i> 模块索引</h2>
+                <div class="module-grid">
+                    <div class="module-card" data-module="wires">
+                        <i class="fas fa-plug"></i>
+                        <h3>线路模块</h3>
+                        <p>剪断正确的电线</p>
+                    </div>
+                    <div class="module-card" data-module="button">
+                        <i class="fas fa-circle"></i>
+                        <h3>按钮模块</h3>
+                        <p>按下或按住按钮</p>
+                    </div>
+                    <div class="module-card" data-module="keypad">
+                        <i class="fas fa-keyboard"></i>
+                        <h3>键盘模块</h3>
+                        <p>按正确顺序输入符号</p>
+                    </div>
+                    <div class="module-card" data-module="simon">
+                        <i class="fas fa-gamepad"></i>
+                        <h3>四色方块</h3>
+                        <p>重复颜色序列</p>
+                    </div>
+                    <div class="module-card" data-module="who">
+                        <i class="fas fa-question-circle"></i>
+                        <h3>他叫什么模块</h3>
+                        <p>识别正确的名字</p>
+                    </div>
+                    <div class="module-card" data-module="memory">
+                        <i class="fas fa-brain"></i>
+                        <h3>记忆模块</h3>
+                        <p>记住并重复序列</p>
+                    </div>
+                    <div class="module-card" data-module="morse">
+                        <i class="fas fa-signal"></i>
+                        <h3>摩斯电码模块</h3>
+                        <p>解码摩斯电码</p>
+                    </div>
+                    <div class="module-card" data-module="password">
+                        <i class="fas fa-lock"></i>
+                        <h3>密码模块</h3>
+                        <p>输入正确密码</p>
+                    </div>
+                    <div class="module-card" data-module="complex-wires">
+                        <i class="fas fa-network-wired"></i>
+                        <h3>复杂线路模块</h3>
+                        <p>剪断复杂电线</p>
+                    </div>
+                    <div class="module-card" data-module="wire-sequence">
+                        <i class="fas fa-sort-numeric-up"></i>
+                        <h3>顺序线路模块</h3>
+                        <p>按顺序剪断电线</p>
+                    </div>
+                    <div class="module-card" data-module="maze">
+                        <i class="fas fa-border-all"></i>
+                        <h3>迷宫模块</h3>
+                        <p>查找迷宫路径</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 线路模块 -->
+            <section id="wires-module" class="module-content" style="display: none;">
+                <div class="module-header">
+                    <button class="back-btn" onclick="showIndex()">
+                        <i class="fas fa-arrow-left"></i> 返回索引
+                    </button>
+                    <h2><i class="fas fa-plug"></i> 线路模块</h2>
+                </div>
+
+                <div class="wires-input">
+                    <h3>输入线路颜色</h3>
+                    <div class="input-methods">
+                        <div class="manual-input">
+                            <label for="wires-input">手动输入 (例: 红红黑黄):</label>
+                            <input type="text" id="wires-input" placeholder="输入颜色，用空格或逗号分隔">
+                        </div>
+                        <div class="color-buttons">
+                            <p>或点击颜色按钮:</p>
+                            <div class="color-btn-group">
+                                <button class="color-btn red" data-color="红">红</button>
+                                <button class="color-btn white" data-color="白">白</button>
+                                <button class="color-btn blue" data-color="蓝">蓝</button>
+                                <button class="color-btn yellow" data-color="黄">黄</button>
+                                <button class="color-btn black" data-color="黑">黑</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="current-wires" style="display:flex;align-items:center;justify-content:space-between;">
+                        <h4 style="margin-bottom:0;">当前线路: <span id="current-wires-display">无</span></h4>
+                        <button class="clear-btn" onclick="clearWires()">清空</button>
+                    </div>
+
+                    <button class="solve-btn" onclick="solveWires()">获取拆除步骤</button>
+                </div>
+
+                <div id="serial-number-section" class="serial-number-section" style="display: none;">
+                    <h3>序列号末位</h3>
+                    <p>请选择序列号的末位数字:</p>
+                    <div class="serial-options">
+                        <button class="serial-btn" data-parity="odd">奇数</button>
+                        <button class="serial-btn" data-parity="even">偶数</button>
+                    </div>
+                </div>
+
+                <div id="wires-result" class="result-section" style="display: none;">
+                    <h3>拆除步骤</h3>
+                    <div id="wires-solution" class="solution"></div>
+                </div>
+            </section>
+
+            <!-- 按钮模块 -->
+            <section id="button-module" class="module-content" style="display: none;">
+                <div class="module-header">
+                    <button class="back-btn" onclick="showIndex()">
+                        <i class="fas fa-arrow-left"></i> 返回索引
+                    </button>
+                    <h2><i class="fas fa-circle"></i> 按钮模块</h2>
+                </div>
+
+                <div class="button-input">
+                    <h3>按钮信息</h3>
+                    <div class="button-options">
+                        <div class="option-group">
+                            <label>按钮颜色:</label>
+                            <div class="button-color-btns">
+                                <button class="btn-color-btn" data-color="blue">蓝色</button>
+                                <button class="btn-color-btn" data-color="white">白色</button>
+                                <button class="btn-color-btn" data-color="yellow">黄色</button>
+                                <button class="btn-color-btn" data-color="red">红色</button>
+                                <button class="btn-color-btn" data-color="other">其他</button>
+                            </div>
+                        </div>
+
+                        <div class="option-group">
+                            <label>按钮文字:</label>
+                            <div class="button-text-btns">
+                                <button class="btn-text-btn" data-text="abort">中止</button>
+                                <button class="btn-text-btn" data-text="detonate">引爆</button>
+                                <button class="btn-text-btn" data-text="hold">按住</button>
+                                <button class="btn-text-btn" data-text="none">无文字</button>
+                            </div>
+                        </div>
+
+                        <div class="option-group">
+                            <label>指示灯:</label>
+                            <div class="indicator-btns">
+                                <button class="indicator-btn" data-indicator="car">CAR</button>
+                                <button class="indicator-btn" data-indicator="frk">FRK</button>
+                                <button class="indicator-btn" data-indicator="none">无</button>
+                            </div>
+                        </div>
+
+                        <div class="option-group">
+                            <label>电池数量:</label>
+                            <div class="battery-btns">
+                                <button class="battery-btn" data-batteries="0">0个</button>
+                                <button class="battery-btn" data-batteries="1">1个</button>
+                                <button class="battery-btn" data-batteries="2">2个</button>
+                                <button class="battery-btn" data-batteries="3">3个+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="current-button-info">
+                        <h4>当前选择:</h4>
+                        <p>颜色: <span id="current-btn-color">未选择</span></p>
+                        <p>文字: <span id="current-btn-text">未选择</span></p>
+                        <p>指示灯: <span id="current-indicator">未选择</span></p>
+                        <p>电池: <span id="current-batteries">未选择</span></p>
+                    </div>
+
+                    <button class="solve-btn" onclick="solveButton()">获取拆除步骤</button>
+                </div>
+
+                <div id="button-result" class="result-section" style="display: none;">
+                    <h3>拆除步骤</h3>
+                    <div id="button-solution" class="solution"></div>
+                </div>
+            </section>
+
+            <!-- 记忆模块 -->
+            <section id="memory-module" class="module-content" style="display: none;">
+                <div class="module-header">
+                    <button class="back-btn" onclick="showIndex()">
+                        <i class="fas fa-arrow-left"></i> 返回索引
+                    </button>
+                    <h2><i class="fas fa-brain"></i> 记忆模块</h2>
+                </div>
+
+                <div class="memory-input">
+                    <h3>记忆模块拆除步骤</h3>
+
+                    <div class="memory-stage-info">
+                        <h4>当前阶段: <span id="current-stage">1</span></h4>
+                    </div>
+
+                    <div class="button-order-input">
+                        <h4>按钮顺序 (从左到右):</h4>
+                        <p>请输入按钮上的数字，从左到右的顺序</p>
+                        <div class="order-input-group">
+                            <input type="number" class="order-input" id="order-1" min="1" max="4" placeholder="1">
+                            <input type="number" class="order-input" id="order-2" min="1" max="4" placeholder="2">
+                            <input type="number" class="order-input" id="order-3" min="1" max="4" placeholder="3">
+                            <input type="number" class="order-input" id="order-4" min="1" max="4" placeholder="4">
+                        </div>
+                    </div>
+
+                    <div class="memory-display-section">
+                        <h4>显示屏数字:</h4>
+                        <div class="display-number-btns">
+                            <button class="display-btn" data-number="1">1</button>
+                            <button class="display-btn" data-number="2">2</button>
+                            <button class="display-btn" data-number="3">3</button>
+                            <button class="display-btn" data-number="4">4</button>
+                        </div>
+                    </div>
+
+                    <div id="memory-result" class="result-section" style="display: none;">
+                        <h3>当前步骤</h3>
+                        <div id="memory-solution" class="solution"></div>
+                    </div>
+
+                    <div class="memory-history">
+                        <h4>历史记录:</h4>
+                        <div id="memory-history-display" class="history-display"></div>
+                    </div>
+
+                    <div class="memory-controls">
+                        <button class="reset-btn" onclick="resetMemory()">重置模块</button>
+                        <button class="solve-btn" onclick="getMemorySolution()">获取当前步骤</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 键盘模块 -->
+            <section id="keypad-module" class="module-content" style="display: none;">
+                <div class="module-header">
+                    <button class="back-btn" onclick="showIndex()">
+                        <i class="fas fa-arrow-left"></i> 返回索引
+                    </button>
+                    <h2><i class="fas fa-keyboard"></i> 键盘模块</h2>
+                </div>
+                <div class="keypad-image-section" style="text-align:center;">
+                    <img src="img/keypad.png" alt="键盘模块符号表" style="max-width:100%;height:auto;border:1px solid #ccc;box-shadow:0 2px 8px #0001;">
+                    <p style="margin-top:10px;">请根据上图查找并按顺序输入符号。</p>
+                </div>
+            </section>
+
+            <!-- 四色方块模块 -->
+            <section id="simon-module" class="module-content" style="display: none;">
+                <div class="module-header">
+                    <button class="back-btn" onclick="showIndex()">
+                        <i class="fas fa-arrow-left"></i> 返回索引
+                    </button>
+                    <h2><i class="fas fa-gamepad"></i> 四色方块模块</h2>
+                </div>
+                <div class="simon-input-section" style="text-align:center;">
+                    <h3>序列号中是否包含元音字母（A、E、I、O、U）？</h3>
+                    <div style="margin:20px 0;">
+                        <button class="simon-vowel-btn" onclick="showSimonImage(true)">是</button>
+                        <button class="simon-vowel-btn" onclick="showSimonImage(false)">否</button>
+                    </div>
+                    <div id="simon-image-area"></div>
+                </div>
+            </section>
+
+            <!-- 他叫什么 -->
+            <section id="who-module" class="module-content" style="display: none;">
+                <div class="module-header">
+                    <button class="back-btn" onclick="showIndex()">
+                        <i class="fas fa-arrow-left"></i> 返回索引
+                    </button>
+                    <h2><i class="fas fa-keyboard"></i> 他叫什么模块</h2>
+                </div>
+                <div class="keypad-image-section" style="text-align:center;">
+                    <img src="img/who-1.png" alt="他叫什么模块步骤1" style="max-width:100%;height:auto;border:1px solid #ccc;box-shadow:0 2px 8px #0001;">
+                    <p style="margin-top:10px;">按第1步找到的标签找到下表对应行，然后按下写有该行最先出现字词的按钮：</p>
+                    <img src="img/who-2.png" alt="他叫什么模块步骤2" style="max-width:100%;height:auto;border:1px solid #ccc;box-shadow:0 2px 8px #0001;">
+                </div>
+            </section>
+
+            <!-- 摩斯电码模块 -->
+            <section id="morse-module" class="module-content" style="display: none;">
+                <div class="module-header">
+                    <button class="back-btn" onclick="showIndex()">
+                        <i class="fas fa-arrow-left"></i> 返回索引
+                    </button>
+                    <h2><i class="fas fa-signal"></i> 摩斯电码模块</h2>
+                </div>
+                <div class="morse-input-section" style="max-width:500px;margin:0 auto;">
+                    <h3>输入摩斯电码字母（5-6位）：</h3>
+                    <input type="text" id="morse-input" maxlength="30" placeholder="如：.- ...- ...-（点划用.和-，字母间空格）" style="width:100%;font-size:1.2rem;padding:10px 12px;border-radius:8px;border:2px solid #ddd;">
+                    <div id="morse-decode" style="margin:10px 0 0 0;color:#0077b6;font-size:1.1rem;"></div>
+                    <div id="morse-result" class="morse-result-list" style="margin-top:20px;"></div>
+                </div>
+            </section>
+
+            <!-- 迷宫模块 -->
+            <section id="maze-module" class="module-content" style="display: none;">
+                <div class="module-header">
+                    <button class="back-btn" onclick="showIndex()">
+                        <i class="fas fa-arrow-left"></i> 返回索引
+                    </button>
+                    <h2><i class="fas fa-border-all"></i> 迷宫模块</h2>
+                </div>
+                <div class="maze-image-section" style="text-align:center;">
+                    <img src="img/maze.png" alt="迷宫模块图片" style="max-width:100%;height:auto;border:1px solid #ccc;box-shadow:0 2px 8px #0001;">
+                    <p style="margin-top:10px;">请根据上图查找迷宫路径。</p>
+                </div>
+            </section>
+
+            <!-- 密码模块 -->
+            <section id="password-module" class="module-content" style="display: none;">
+                <div class="module-header">
+                    <button class="back-btn" onclick="showIndex()">
+                        <i class="fas fa-arrow-left"></i> 返回索引
+                    </button>
+                    <h2><i class="fas fa-lock"></i> 密码模块</h2>
+                </div>
+                <div class="password-input-section" style="max-width:500px;margin:0 auto;">
+                    <h3>请输入每一位可能的字母（最多6个，无需分隔符）：</h3>
+                    <div class="password-letter-group">
+                        <input type="text" class="pw-letter" id="pw-1" maxlength="12" placeholder="第1位">
+                        <input type="text" class="pw-letter" id="pw-2" maxlength="12" placeholder="第2位">
+                        <input type="text" class="pw-letter" id="pw-3" maxlength="12" placeholder="第3位">
+                        <input type="text" class="pw-letter" id="pw-4" maxlength="12" placeholder="第4位">
+                        <input type="text" class="pw-letter" id="pw-5" maxlength="12" placeholder="第5位">
+                    </div>
+                    <div id="pw-result" class="pw-result-list" style="margin-top:20px;"></div>
+                </div>
+            </section>
+
+            <!-- 顺序线路模块 -->
+            <section id="wire-sequence-module" class="module-content" style="display: none;">
+                <div class="module-header">
+                    <button class="back-btn" onclick="showIndex()">
+                        <i class="fas fa-arrow-left"></i> 返回索引
+                    </button>
+                    <h2><i class="fas fa-sort-numeric-up"></i> 顺序线路模块</h2>
+                </div>
+                <div class="wire-seq-panel" style="max-width:600px;margin:0 auto;">
+                    <div style="margin-bottom:10px;">
+                        <strong>当前面板：<span id="wire-seq-panel-num">1</span></strong>
+                    </div>
+                    <div class="wire-seq-input-group">
+                        <input type="text" id="wire-seq-input" placeholder="如：黑A 红B 红C" style="width:100%;font-size:1.1rem;padding:10px 12px;border-radius:8px;border:2px solid #ddd;">
+                        <div class="wire-seq-quick-input" style="margin-top:10px;display:flex;align-items:center;gap:10px;">
+                            <span class="wire-seq-radio-group">
+                                <label class="wire-seq-radio-label"><input type="radio" class="wire-seq-radio" name="wire-seq-color" id="wire-seq-color-red" value="红" checked><span>红</span></label>
+                                <label class="wire-seq-radio-label"><input type="radio" class="wire-seq-radio" name="wire-seq-color" id="wire-seq-color-blue" value="蓝"><span>蓝</span></label>
+                                <label class="wire-seq-radio-label"><input type="radio" class="wire-seq-radio" name="wire-seq-color" id="wire-seq-color-black" value="黑"><span>黑</span></label>
+                            </span>
+                            <span class="wire-seq-radio-group">
+                                <label class="wire-seq-radio-label"><input type="radio" class="wire-seq-radio" name="wire-seq-letter" id="wire-seq-letter-a" value="A" checked><span>A</span></label>
+                                <label class="wire-seq-radio-label"><input type="radio" class="wire-seq-radio" name="wire-seq-letter" id="wire-seq-letter-b" value="B"><span>B</span></label>
+                                <label class="wire-seq-radio-label"><input type="radio" class="wire-seq-radio" name="wire-seq-letter" id="wire-seq-letter-c" value="C"><span>C</span></label>
+                            </span>
+                            <button class="wire-seq-btn wire-seq-add-btn" type="button" onclick="addWireSeqQuickInput()">添加</button>
+                        </div>
+                    </div>
+                    <div class="wire-seq-panel-btns" style="margin:15px 0;display:flex;gap:10px;justify-content:center;">
+                        <button class="wire-seq-btn" onclick="prevWireSeqPanel()">上一个面板</button>
+                        <button class="wire-seq-btn" onclick="nextWireSeqPanel()">下一个面板</button>
+                        <button class="wire-seq-btn reset" onclick="resetWireSeqModule()">重置模块</button>
+                    </div>
+                    <div id="wire-seq-result" class="wire-seq-result-list" style="margin-top:20px;"></div>
+                </div>
+            </section>
+
+            <!-- 复杂线路模块 -->
+            <section id="complex-wires-module" class="module-content" style="display: none;">
+                <div class="module-header">
+                    <button class="back-btn" onclick="showIndex()">
+                        <i class="fas fa-arrow-left"></i> 返回索引
+                    </button>
+                    <h2><i class="fas fa-project-diagram"></i> 复杂线路模块</h2>
+                </div>
+                <div class="complex-wires-desc" style="margin-bottom:18px;color:#555;">
+                    <p>请依次输入每根线的属性，系统会自动判断该线的处理方式。</p>
+                </div>
+                <div class="complex-wire-input-panel" style="max-width:600px;margin:0 auto;">
+                    <div class="complex-wire-input-group" style="display:flex;align-items:center;gap:16px;margin-bottom:12px;flex-wrap:nowrap;white-space:nowrap;">
+                        <span style="font-weight:600;white-space:nowrap;">颜色：</span>
+                        <span class="complex-radio-group" style="min-width:180px;white-space:nowrap;">
+                            <label class="complex-radio-label"><input type="checkbox" class="complex-wire-color" value="red"><span>红</span></label>
+                            <label class="complex-radio-label"><input type="checkbox" class="complex-wire-color" value="blue"><span>蓝</span></label>
+                            <label class="complex-radio-label"><input type="checkbox" class="complex-wire-color" value="white"><span>白</span></label>
+                        </span>
+                        <span style="font-weight:600;white-space:nowrap;">★：</span>
+                        <span class="complex-radio-group">
+                            <label class="complex-radio-label"><input type="radio" name="complex-wire-star" class="complex-wire-star" value="1"><span>有</span></label>
+                            <label class="complex-radio-label"><input type="radio" name="complex-wire-star" class="complex-wire-star" value="0" checked><span>无</span></label>
+                        </span>
+                        <span style="font-weight:600;white-space:nowrap;">LED：</span>
+                        <span class="complex-radio-group">
+                            <label class="complex-radio-label"><input type="radio" name="complex-wire-led" class="complex-wire-led" value="1"><span>亮</span></label>
+                            <label class="complex-radio-label"><input type="radio" name="complex-wire-led" class="complex-wire-led" value="0" checked><span>灭</span></label>
+                        </span>
+                        <button class="wire-seq-btn wire-seq-add-btn" type="button" style="white-space:nowrap;" onclick="addComplexWire()">添加</button>
+                    </div>
+                    <div class="complex-wire-svg-panel" style="text-align:center;margin-bottom:18px;display:none;"></div>
+                    <div id="complex-wires-list" class="wire-seq-result-list" style="margin-top:10px;"></div>
+                    <div style="text-align:center;margin-top:20px;">
+                        <button class="reset-btn" type="button" style="width: 100%;" onclick="resetComplexWireModule()">重置模块</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 其他模块占位 -->
+            <section id="other-modules" class="module-content" style="display: none;">
+                <div class="module-header">
+                    <button class="back-btn" onclick="showIndex()">
+                        <i class="fas fa-arrow-left"></i> 返回索引
+                    </button>
+                    <h2 id="other-module-title">模块</h2>
+                </div>
+                <div class="coming-soon">
+                    <i class="fas fa-tools"></i>
+                    <h3>功能开发中</h3>
+                    <p>该模块的拆除步骤查询功能正在开发中，敬请期待！</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="./js/script.js"></script>
+</body>
+</html>
