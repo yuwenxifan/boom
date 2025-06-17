@@ -164,6 +164,8 @@ function showModule(moduleType) {
         setTimeout(initializeMorseInput, 100);
     } else if (moduleType === 'maze') {
         document.getElementById('maze-module').style.display = 'block';
+    } else if (moduleType === 'knob') {
+        document.getElementById('knob-module').style.display = 'block';
     } else if (moduleType === 'password') {
         document.getElementById('password-module').style.display = 'block';
         setTimeout(initializePasswordInput, 100);
@@ -380,6 +382,8 @@ function selectButtonOption(type, button) {
     buttonState[type] = value;
     
     updateButtonDisplay();
+    // 实时检查并显示解决方案
+    checkButtonSolution();
 }
 
 function updateButtonDisplay() {
@@ -395,13 +399,13 @@ function updateButtonDisplay() {
         'abort': '中止',
         'detonate': '引爆',
         'hold': '按住',
-        'none': '无文字'
+        'none': '其他'
     };
     
     const indicatorMap = {
         'car': 'CAR',
         'frk': 'FRK',
-        'none': '无'
+        'none': '其他'
     };
     
     const batteryMap = {
@@ -421,79 +425,129 @@ function updateButtonDisplay() {
         buttonState.batteries !== null ? batteryMap[buttonState.batteries] : '未选择';
 }
 
-function solveButton() {
-    if (!buttonState.color || !buttonState.text || !buttonState.indicator || buttonState.batteries === null) {
-        alert('请选择所有按钮信息！');
+// 实时检查按钮解决方案
+function checkButtonSolution() {
+    const { color, text, indicator, batteries } = buttonState;
+    
+    // 如果颜色或文字未选择，显示提示
+    if (!color || !text) {
+        document.getElementById('button-solution').innerHTML = '请选择按钮颜色和文字';
         return;
     }
     
-    const solution = getButtonSolution();
-    displayButtonSolution(solution);
-}
-
-function getButtonSolution() {
-    const { color, text, indicator, batteries } = buttonState;
-    const batteryCount = parseInt(batteries);
-    
-    let steps = [];
+    let solution = '';
     
     // 规则1: 如果是写有"中止"的蓝色按钮
     if (text === 'abort' && color === 'blue') {
-        steps.push('按住按钮，然后参考"松开按住的按钮"');
+        solution = getButtonSolutionSteps(['按住按钮，然后参考"松开按住的按钮"']);
     }
     // 规则2: 如果炸弹上有不止1个电池，同时按钮上写着"引爆"
-    else if (batteryCount > 1 && text === 'detonate') {
-        steps.push('按下按钮并立即松开');
+    else if (text === 'detonate') {
+        if (batteries === null) {
+            solution = '请选择电池数量以继续判断';
+        } else {
+            const batteryCount = parseInt(batteries);
+            if (batteryCount > 1) {
+                solution = getButtonSolutionSteps(['按下按钮并立即松开']);
+            } else {
+                // 不满足规则2，继续检查规则3
+                solution = checkRule3AndBeyond(color, text, indicator, batteries);
+            }
+        }
     }
     // 规则3: 如果按钮是白色的，同时炸弹上有个写着CAR的指示灯亮
-    else if (color === 'white' && indicator === 'car') {
-        steps.push('按住按钮，然后参考"松开按住的按钮"');
+    else if (color === 'white') {
+        if (indicator === null) {
+            solution = '请选择指示灯状态以继续判断';
+        } else {
+            if (indicator === 'car') {
+                solution = getButtonSolutionSteps(['按住按钮，然后参考"松开按住的按钮"']);
+            } else {
+                // 不满足规则3，继续检查规则4
+                solution = checkRule4AndBeyond(color, text, indicator, batteries);
+            }
+        }
     }
-    // 规则4: 如果炸弹上有不止2个电池，也有写着FRK的指示灯亮
-    else if (batteryCount > 2 && indicator === 'frk') {
-        steps.push('按下按钮并立即松开');
-    }
-    // 规则5: 如果按钮是黄色的
-    else if (color === 'yellow') {
-        steps.push('按住按钮，然后参考"松开按住的按钮"');
-    }
-    // 规则6: 如果是写有"按住"的红色按钮
-    else if (text === 'hold' && color === 'red') {
-        steps.push('按下按钮并立即松开');
-    }
-    // 规则7: 如果不满足上述任一情况
+    // 从规则4开始检查
     else {
-        steps.push('按住按钮，然后参考"松开按住的按钮"');
+        solution = checkRule4AndBeyond(color, text, indicator, batteries);
     }
+    
+    document.getElementById('button-solution').innerHTML = solution;
+}
+
+// 从规则3开始检查（规则2不满足时）
+function checkRule3AndBeyond(color, text, indicator, batteries) {
+    // 规则3: 如果按钮是白色的，同时炸弹上有个写着CAR的指示灯亮
+    if (color === 'white') {
+        if (indicator === null) {
+            return '请选择指示灯状态以继续判断';
+        } else {
+            if (indicator === 'car') {
+                return getButtonSolutionSteps(['按住按钮，然后参考"松开按住的按钮"']);
+            }
+        }
+    }
+    // 不满足规则3，继续检查规则4
+    return checkRule4AndBeyond(color, text, indicator, batteries);
+}
+
+// 从规则4开始检查
+function checkRule4AndBeyond(color, text, indicator, batteries) {
+    // 规则4: 如果炸弹上有不止2个电池，也有写着FRK的指示灯亮
+    if (batteries === null || indicator === null) {
+        return '请选择指示灯状态和电池数量以继续判断';
+    }
+    
+    const batteryCount = parseInt(batteries);
+    if (batteryCount > 2 && indicator === 'frk') {
+        return getButtonSolutionSteps(['按下按钮并立即松开']);
+    }
+    
+    // 规则5: 如果按钮是黄色的
+    if (color === 'yellow') {
+        return getButtonSolutionSteps(['按住按钮，然后参考"松开按住的按钮"']);
+    }
+    
+    // 规则6: 如果是写有"按住"的红色按钮
+    if (text === 'hold' && color === 'red') {
+        return getButtonSolutionSteps(['按下按钮并立即松开']);
+    }
+    
+    // 规则7: 如果不满足上述任一情况
+    return getButtonSolutionSteps(['按住按钮，然后参考"松开按住的按钮"']);
+}
+
+function getButtonSolutionSteps(steps) {
+    let html = '';
+    steps.forEach((step, index) => {
+        html += `<div class="step">${step}</div>`;
+    });
     
     // 如果步骤包含"按住按钮"，添加松开按钮的说明
     if (steps[0].includes('按住按钮')) {
-        steps.push('松开按住的按钮说明：');
-        steps.push('• 蓝色光条：在计时器任意数位显示4时松开');
-        steps.push('• 白色光条：在计时器任意数位显示1时松开');
-        steps.push('• 黄色光条：在计时器任意数位显示5时松开');
-        steps.push('• 其他颜色光条：在计时器任意数位显示1时松开');
+        html += '<div class="step"><strong>松开按住的按钮说明：</strong></div>';
+        html += '<div class="step">• 蓝色光条：在计时器任意数位显示4时松开</div>';
+        html += '<div class="step">• 白色光条：在计时器任意数位显示1时松开</div>';
+        html += '<div class="step">• 黄色光条：在计时器任意数位显示5时松开</div>';
+        html += '<div class="step">• 其他颜色光条：在计时器任意数位显示1时松开</div>';
     }
     
-    return steps;
+    return html;
+}
+
+function solveButton() {
+    // 这个函数现在不再需要，因为是实时更新
+    checkButtonSolution();
+}
+
+function getButtonSolution() {
+    // 删除这个函数，因为已经合并到checkButtonSolution中
+    return '';
 }
 
 function displayButtonSolution(steps) {
-    document.getElementById('button-result').style.display = 'block';
-    const solutionDiv = document.getElementById('button-solution');
-    
-    let html = '';
-    steps.forEach((step, index) => {
-        if (index === 0) {
-            html += `<div class="step">${step}</div>`;
-        } else if (step.includes('松开按住的按钮说明')) {
-            html += `<div class="step"><strong>${step}</strong></div>`;
-        } else {
-            html += `<div class="step">${step}</div>`;
-        }
-    });
-    
-    solutionDiv.innerHTML = html;
+    // 这个函数现在不再需要，因为是实时更新
 }
 
 function resetButtonModule() {
@@ -510,7 +564,7 @@ function resetButtonModule() {
     });
     
     updateButtonDisplay();
-    document.getElementById('button-result').style.display = 'none';
+    document.getElementById('button-solution').innerHTML = '请选择按钮颜色和文字';
 }
 
 // 记忆模块功能
@@ -1081,10 +1135,16 @@ function addComplexWire() {
     // 记录
     complexWires.push({ colors, hasStar, hasLed, result });
     updateComplexWiresList();
-    // 清空输入
+    // 清空输入并恢复初始状态
+    resetComplexWireInput();
+}
+
+// 新增：重置复杂线路输入状态
+function resetComplexWireInput() {
     document.querySelectorAll('.complex-wire-color').forEach(cb => cb.checked = false);
     document.querySelector('.complex-wire-star[value="0"]').checked = true;
     document.querySelector('.complex-wire-led[value="0"]').checked = true;
+    updateComplexRadioSelected();
 }
 
 function getComplexWireRegion(colors, hasStar, hasLed) {
@@ -1184,12 +1244,41 @@ function bindComplexRadioEvents() {
 
 // 页面加载和复杂线路模块显示时都调用
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bindComplexRadioEvents);
+    document.addEventListener('DOMContentLoaded', function() {
+        bindComplexRadioEvents();
+        resetComplexWireInput();
+    });
 } else {
     bindComplexRadioEvents();
+    resetComplexWireInput();
 }
 
 function resetComplexWireModule() {
     complexWires.length = 0;
     updateComplexWiresList();
+    resetComplexWireInput();
+}
+
+// 重置摩斯电码模块
+function resetMorseModule() {
+    const input = document.getElementById('morse-input');
+    const decode = document.getElementById('morse-decode');
+    const result = document.getElementById('morse-result');
+    
+    if (input) input.value = '';
+    if (decode) decode.textContent = '';
+    if (result) result.innerHTML = '<span style="color:#888;">请输入字母，支持模糊筛选</span>';
+}
+
+// 重置密码模块
+function resetPasswordModule() {
+    // 清空所有输入框
+    for (let i = 1; i <= 5; i++) {
+        const input = document.getElementById('pw-' + i);
+        if (input) input.value = '';
+    }
+    
+    // 重置结果显示
+    const result = document.getElementById('pw-result');
+    if (result) result.innerHTML = '<span style="color:#888;">请输入每位可能的字母</span>';
 } 

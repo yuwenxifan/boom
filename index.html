@@ -74,6 +74,11 @@
                         <h3>迷宫模块</h3>
                         <p>查找迷宫路径</p>
                     </div>
+                    <div class="module-card" data-module="knob">
+                        <i class="fas fa-cog"></i>
+                        <h3>旋钮（特需）模块</h3>
+                        <p>特需模块</p>
+                    </div>
                 </div>
             </section>
 
@@ -157,16 +162,16 @@
                                 <button class="btn-text-btn" data-text="abort">中止</button>
                                 <button class="btn-text-btn" data-text="detonate">引爆</button>
                                 <button class="btn-text-btn" data-text="hold">按住</button>
-                                <button class="btn-text-btn" data-text="none">无文字</button>
+                                <button class="btn-text-btn" data-text="none">其他</button>
                             </div>
                         </div>
 
                         <div class="option-group">
-                            <label>指示灯:</label>
+                            <label>指示灯（亮）:</label>
                             <div class="indicator-btns">
                                 <button class="indicator-btn" data-indicator="car">CAR</button>
                                 <button class="indicator-btn" data-indicator="frk">FRK</button>
-                                <button class="indicator-btn" data-indicator="none">无</button>
+                                <button class="indicator-btn" data-indicator="none">其他</button>
                             </div>
                         </div>
 
@@ -188,13 +193,15 @@
                         <p>指示灯: <span id="current-indicator">未选择</span></p>
                         <p>电池: <span id="current-batteries">未选择</span></p>
                     </div>
-
-                    <button class="solve-btn" onclick="solveButton()">获取拆除步骤</button>
                 </div>
 
-                <div id="button-result" class="result-section" style="display: none;">
+                <div id="button-result" class="result-section">
                     <h3>拆除步骤</h3>
-                    <div id="button-solution" class="solution"></div>
+                    <div id="button-solution" class="solution">请选择按钮颜色和文字</div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button class="reset-btn" style="width: 100%;" onclick="resetButtonModule()">重置模块</button>
                 </div>
             </section>
 
@@ -247,7 +254,6 @@
 
                     <div class="memory-controls">
                         <button class="reset-btn" onclick="resetMemory()">重置模块</button>
-                        <button class="solve-btn" onclick="getMemorySolution()">获取当前步骤</button>
                     </div>
                 </div>
             </section>
@@ -312,6 +318,7 @@
                     <input type="text" id="morse-input" maxlength="30" placeholder="如：.- ...- ...-（点划用.和-，字母间空格）" style="width:100%;font-size:1.2rem;padding:10px 12px;border-radius:8px;border:2px solid #ddd;">
                     <div id="morse-decode" style="margin:10px 0 0 0;color:#0077b6;font-size:1.1rem;"></div>
                     <div id="morse-result" class="morse-result-list" style="margin-top:20px;"></div>
+                    <button class="reset-btn" style="width: 100%; margin-top: 20px;" onclick="resetMorseModule()">重置模块</button>
                 </div>
             </section>
 
@@ -347,6 +354,7 @@
                         <input type="text" class="pw-letter" id="pw-5" maxlength="12" placeholder="第5位">
                     </div>
                     <div id="pw-result" class="pw-result-list" style="margin-top:20px;"></div>
+                    <button class="reset-btn" style="width: 100%; margin-top: 20px;" onclick="resetPasswordModule()">重置模块</button>
                 </div>
             </section>
 
@@ -381,9 +389,9 @@
                     <div class="wire-seq-panel-btns" style="margin:15px 0;display:flex;gap:10px;justify-content:center;">
                         <button class="wire-seq-btn" onclick="prevWireSeqPanel()">上一个面板</button>
                         <button class="wire-seq-btn" onclick="nextWireSeqPanel()">下一个面板</button>
-                        <button class="wire-seq-btn reset" onclick="resetWireSeqModule()">重置模块</button>
                     </div>
                     <div id="wire-seq-result" class="wire-seq-result-list" style="margin-top:20px;"></div>
+                    <button class="wire-seq-btn reset-btn" style="width: 100%; margin-top: 20px;" onclick="resetWireSeqModule()">重置模块</button>
                 </div>
             </section>
 
@@ -393,7 +401,7 @@
                     <button class="back-btn" onclick="showIndex()">
                         <i class="fas fa-arrow-left"></i> 返回索引
                     </button>
-                    <h2><i class="fas fa-project-diagram"></i> 复杂线路模块</h2>
+                    <h2><i class="fas fa-network-wired"></i> 复杂线路模块</h2>
                 </div>
                 <div class="complex-wires-desc" style="margin-bottom:18px;color:#555;">
                     <p>请依次输入每根线的属性，系统会自动判断该线的处理方式。</p>
@@ -423,6 +431,19 @@
                     <div style="text-align:center;margin-top:20px;">
                         <button class="reset-btn" type="button" style="width: 100%;" onclick="resetComplexWireModule()">重置模块</button>
                     </div>
+                </div>
+            </section>
+
+            <!-- 旋钮模块 -->
+            <section id="knob-module" class="module-content" style="display: none;">
+                <div class="module-header">
+                    <button class="back-btn" onclick="showIndex()">
+                        <i class="fas fa-arrow-left"></i> 返回索引
+                    </button>
+                    <h2><i class="fas fa-cog    "></i> 旋钮模块</h2>
+                </div>
+                <div class="maze-image-section" style="text-align:center;">
+                    <img src="img/knob.png" alt="旋钮模块图片" style="max-width:100%;height:auto;border:1px solid #ccc;box-shadow:0 2px 8px #0001;">
                 </div>
             </section>
 
