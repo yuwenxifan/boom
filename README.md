@@ -1,7 +1,7 @@
 # 炸弹拆除手册 - 快速查询工具
 
 这是一个基于HTML、CSS和JavaScript开发的炸弹拆除游戏拆弹步骤快速查询工具。该工具可以帮助玩家快速查找各种炸弹模块的拆除步骤。
-https
+https://yuwenxifan.github.io/boom
 
 ## 功能特性
 
